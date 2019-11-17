@@ -1,0 +1,71 @@
+version: '3'
+services:
+  # Polis PostgreSQL Database
+  polisdb:
+    image: copernicani/polis_db
+    container_name: polisdb
+    hostname: polisdb
+    ports:
+      - "5432:5432"
+
+  # Polis Server
+  polisserver:
+    image: copernicani/polis_server
+    container_name: polisserver
+    hostname: polisserver
+    ports:
+      - "5000:5000"
+    depends_on:
+      - 'polisdb'
+      - 'clientadmin'
+    environment:
+      DATABASE_URL: postgres://postgres:oiPorg3Nrz0yqDLE@polisdb:5432/polis
+      STATIC_FILES_HOST: clientadmin
+      DEV_MODE: "true"
+      DISABLE_INTERCOM: "true"
+      DOMAIN_OVERRIDE: localhost:5000
+      PORT: 5000
+      STATIC_FILES_ADMINDASH_PORT: 5002
+      STATIC_FILES_HOST: clientadmin
+      STATIC_FILES_PORT: 5002
+      STRIPE_SECRET_KEY: sk_test_NFBDEThkpHCYBzXPJuBlY8TW
+
+  # Polis Client Admin
+  clientadmin:
+    image: copernicani/polis_clientadmin
+    container_name: clientadmin
+    hostname: clientadmin
+    environment:
+      SERVICE_URL: polisserver
+    ports:
+      - "5002:5002"
+
+
+
+  # Polis Client  Participants
+  #clientparticipant:
+  #  image: copernicani/polis_clientparticipation
+  #  container_name: clientparticipant
+  #  hostname: clientparticipant
+  #  environment:
+  #    SERVICE_URL: polisserver
+  #  ports:
+  #    - "5001:5001"
+  #    - "8000:8000"
+
+  # Polis Math Container
+  math:
+    image: copernicani/polis_math
+    container_name: math
+    hostname: math
+    environment:
+      SERVICE_URL: polisserver
+      DATABASE_URL: postgres://postgres:oiPorg3Nrz0yqDLE@polisdb:5432/polis
+    links:
+      - polisserver
+      - polisdb
+    ports:
+      - "8080:8080"
+
+
+
