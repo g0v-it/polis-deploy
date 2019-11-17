@@ -24,3 +24,11 @@ docker build -t copernicani/polis_clientparticipation -f polisClientParticipatio
 docker build -t copernicani/polis_clientadmin -f polisClientAdmin/Dockerfile polisClientAdmin
 ```
 
+run stack:
+
+```
+docker-compose up -d
+```
+
+
+
