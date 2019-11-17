@@ -26,7 +26,6 @@ services:
       DOMAIN_OVERRIDE: localhost:5000
       PORT: 5000
       STATIC_FILES_ADMINDASH_PORT: 5002
-      STATIC_FILES_HOST: clientadmin
       STATIC_FILES_PORT: 5002
       STRIPE_SECRET_KEY: sk_test_NFBDEThkpHCYBzXPJuBlY8TW
 
